@@ -1,6 +1,6 @@
-from fastapi import FastAPI, Depends, HTTPException, status
+from fastapi import FastAPI, Depends, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
-from . import models, schemas, database, auth, users
+from . import schemas, database, auth, users
 from sqlalchemy.orm import Session
 from fastapi.security import OAuth2PasswordBearer
 import uvicorn
@@ -31,7 +31,7 @@ def read_users_me(token: str = Depends(oauth2_scheme)):
     try:
         payload = auth.decode_token(token)
         return {"email": payload.get("sub")}
-    except:
+    except Exception:
         raise HTTPException(status_code=401, detail="Invalid token")
 
 if __name__ == "__main__":
