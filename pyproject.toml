@@ -13,6 +13,7 @@ dependencies = [
     "passlib[bcrypt]",
     "python-dotenv",
     "alembic",
+    "python-multipart",
 ]
 
 [project.optional-dependencies]
@@ -20,6 +21,7 @@ dev = [
     "pytest",
     "pytest-asyncio",
     "httpx",
+    "email-validator",
 ]
 
 [build-system]
