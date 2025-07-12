@@ -9,7 +9,9 @@ from app.users import get_db
 
 # Create test database
 SQLALCHEMY_DATABASE_URL = "sqlite:///./test.db"
-engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False})
+engine = create_engine(
+    SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
+)
 TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
@@ -42,16 +44,10 @@ def client(test_db):
 @pytest.fixture
 def sample_user():
     """Sample user data for testing."""
-    return {
-        "email": "test@example.com",
-        "password": "testpassword123"
-    }
+    return {"email": "test@example.com", "password": "testpassword123"}
 
 
 @pytest.fixture
 def sample_user_2():
     """Second sample user data for testing."""
-    return {
-        "email": "test2@example.com",
-        "password": "testpassword456"
-    }
+    return {"email": "test2@example.com", "password": "testpassword456"}

@@ -2,6 +2,7 @@ from sqlalchemy.orm import Session
 from .database import SessionLocal
 from . import models, schemas, auth
 
+
 def get_db():
     db = SessionLocal()
     try:
@@ -9,8 +10,10 @@ def get_db():
     finally:
         db.close()
 
+
 def get_user_by_email(db: Session, email: str):
     return db.query(models.User).filter(models.User.email == email).first()
+
 
 def create_user(db: Session, user: schemas.UserCreate):
     hashed_pw = auth.hash_password(user.password)

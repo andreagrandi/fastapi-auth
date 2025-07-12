@@ -10,6 +10,7 @@ database.Base.metadata.create_all(bind=database.engine)
 app = FastAPI()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
+
 @app.post("/register", response_model=schemas.Token)
 def register(user: schemas.UserCreate, db: Session = Depends(users.get_db)):
     if users.get_user_by_email(db, user.email):
@@ -18,13 +19,18 @@ def register(user: schemas.UserCreate, db: Session = Depends(users.get_db)):
     token = auth.create_access_token(data={"sub": db_user.email})
     return {"access_token": token, "token_type": "bearer"}
 
+
 @app.post("/token", response_model=schemas.Token)
-def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(users.get_db)):
+def login(
+    form_data: OAuth2PasswordRequestForm = Depends(),
+    db: Session = Depends(users.get_db),
+):
     user = users.get_user_by_email(db, form_data.username)
     if not user or not auth.verify_password(form_data.password, user.hashed_password):
         raise HTTPException(status_code=401, detail="Invalid credentials")
     token = auth.create_access_token(data={"sub": user.email})
     return {"access_token": token, "token_type": "bearer"}
+
 
 @app.get("/me")
 def read_users_me(token: str = Depends(oauth2_scheme)):
@@ -33,6 +39,7 @@ def read_users_me(token: str = Depends(oauth2_scheme)):
         return {"email": payload.get("sub")}
     except Exception:
         raise HTTPException(status_code=401, detail="Invalid token")
+
 
 if __name__ == "__main__":
     uvicorn.run("app.main:app", reload=True)
