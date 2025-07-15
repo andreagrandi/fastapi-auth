@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
-from . import schemas, database, auth, users
+from app import schemas, database, auth, users
 from sqlalchemy.orm import Session
 from fastapi.security import OAuth2PasswordBearer
 import uvicorn
