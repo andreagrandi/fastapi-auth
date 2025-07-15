@@ -1,13 +1,14 @@
-version: '3.8'
-
 services:
   app:
     build: .
     ports:
-      - "7000:7000"
+      - "8000:7000"
+    depends_on:
+      db:
+        condition: service_healthy
     environment:
-      - DATABASE_URL=${DATABASE_URL}
-      - SECRET_KEY=${SECRET_KEY}
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/fastapi_auth
+      - SECRET_KEY=your-secret-key-here-change-in-production
       - ALGORITHM=HS256
       - ACCESS_TOKEN_EXPIRE_MINUTES=30
     volumes:
