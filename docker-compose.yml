@@ -2,7 +2,7 @@ services:
   app:
     build: .
     ports:
-      - "8000:7000"
+      - "8008:7000"
     depends_on:
       db:
         condition: service_healthy

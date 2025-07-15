@@ -18,15 +18,57 @@ A FastAPI-based authentication service with OAuth2/JWT token-based authenticatio
 
 ## Requirements
 
-- Python 3.13+
-- PostgreSQL
+- Python 3.13+ (for manual installation)
+- Docker and Docker Compose (for Docker setup)
+- PostgreSQL (for manual installation)
+
+## Quick Start with Docker (Recommended)
+
+The easiest way to run the application is using Docker:
+
+```bash
+# Clone the repository
+git clone <repository-url>
+cd fastapi-auth
+
+# Start the application with Docker
+docker compose up --build
+```
+
+The application will be available at `http://localhost:8008`
+
+Interactive API documentation: `http://localhost:8008/docs`
+
+### Docker Commands
+
+```bash
+# Start services in detached mode
+docker compose up -d
+
+# Stop services
+docker compose down
+
+# View logs
+docker compose logs app
+docker compose logs db
+
+# Rebuild and restart
+docker compose up --build
+```
+
+## Manual Installation and Setup
+
+If you prefer to run without Docker:
+
+### Requirements
+- PostgreSQL database
 - Environment variables:
   - `DATABASE_URL`: PostgreSQL connection string
   - `SECRET_KEY`: JWT signing key
   - `ALGORITHM`: JWT algorithm (typically HS256)
   - `ACCESS_TOKEN_EXPIRE_MINUTES`: Token expiration time
 
-## Installation and Setup
+### Setup Steps
 
 1. Install dependencies:
 ```bash
@@ -46,9 +88,8 @@ export ACCESS_TOKEN_EXPIRE_MINUTES=30
 alembic upgrade head
 ```
 
-## Running the Application
+### Running the Application
 
-### Development Server
 ```bash
 # Option 1: Using uvicorn directly
 python -m uvicorn app.main:app --reload
@@ -57,9 +98,9 @@ python -m uvicorn app.main:app --reload
 python app/main.py
 ```
 
-The API will be available at `http://localhost:8000`
+The API will be available at `http://localhost:8008`
 
-Interactive API documentation: `http://localhost:8000/docs`
+Interactive API documentation: `http://localhost:8008/docs`
 
 ## Running Tests
 
@@ -87,7 +128,7 @@ nox -s format_code
 
 ### 1. Register a New User
 ```bash
-curl -X POST "http://localhost:8000/register" \
+curl -X POST "http://localhost:8008/register" \
   -H "Content-Type: application/json" \
   -d '{
     "email": "user@example.com",
@@ -105,7 +146,7 @@ curl -X POST "http://localhost:8000/register" \
 
 ### 2. Login (Get Access Token)
 ```bash
-curl -X POST "http://localhost:8000/token" \
+curl -X POST "http://localhost:8008/token" \
   -H "Content-Type: application/x-www-form-urlencoded" \
   -d "username=user@example.com&password=securepassword123"
 ```
@@ -120,7 +161,7 @@ curl -X POST "http://localhost:8000/token" \
 
 ### 3. Get Current User Information (Protected)
 ```bash
-curl -X GET "http://localhost:8000/me" \
+curl -X GET "http://localhost:8008/me" \
   -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
 ```
 
